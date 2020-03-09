@@ -15,7 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/admin").setViewName("adminpage");
+        registry.addViewController("/test").setViewName("addViewControllersTest");
     }
 
     @Bean

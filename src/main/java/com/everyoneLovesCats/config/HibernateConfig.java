@@ -56,5 +56,4 @@ public class HibernateConfig {
         return configuration.buildSessionFactory(serviceRegistry);
     }
 
-
 }

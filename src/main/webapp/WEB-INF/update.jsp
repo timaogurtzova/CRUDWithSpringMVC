@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
     <title>Update</title>
@@ -16,7 +17,7 @@
         <td>City</td>
         <td>Role</td>
     </tr>
-        <form action="${pageContext.request.contextPath}/admin/update" method="post">
+        <form action="${contextPath}/user/update" method="post">
             <td> <input type="text" name="id" value="${user.getId()}" hidden> ${user.getId()} </td>
             <td> <input type="text" name="name" value="${user.getName()}"></td>
             <td><input type="number" name="age" value="${user.getAge()}"></td>
