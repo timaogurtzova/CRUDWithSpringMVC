@@ -5,6 +5,7 @@ import com.everyoneLovesCats.model.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -67,12 +68,14 @@ public class UserDaoImpl implements UserDao {
     public void updateUserById(long id, User newParameterUser) throws DBException {
         try (Session session = sessionFactory.openSession()) {
             User user = session.get(User.class, id);
+            Transaction transaction = session.beginTransaction();
             user.setName(newParameterUser.getName());
             user.setAge(newParameterUser.getAge());
             user.setPassword(newParameterUser.getPassword());
             user.setCity(newParameterUser.getCity());
             user.setRole(newParameterUser.getRole());
             session.save(user);
+            transaction.commit();
         } catch (HibernateException e) {
             throw new DBException(e);
         }
@@ -90,9 +93,11 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void deleteUserById(long id) throws DBException {
         try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = session.beginTransaction();
             Query query = session.createQuery("DELETE FROM User WHERE id =:param");
             query.setParameter("param", id);
             query.executeUpdate();
+            transaction.commit();
         } catch (HibernateException e) {
             throw new DBException(e);
         }

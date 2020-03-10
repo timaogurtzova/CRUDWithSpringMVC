@@ -1,6 +1,8 @@
-<%@ page import="com.everyoneLovesCats.service.ServiceUser" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <html>
 <head>
@@ -11,33 +13,35 @@
     <p>Hello, admin cat! <p>
 
     <form>
-        <input type="button" value="UserProfile" onClick='location.href="${pageContext.request.contextPath}/user"'>
+        <input type="button" value="UserProfile" onClick='location.href="${contextPath}/user"'>
     </form>
+    <c:if test="${users != null}">
+        <table border="5" cellspacing="0" cellpadding="20">
+            <tr>
+                <td>ID</td>
+                <td>Name</td>
+                <td>Age</td>
+                <td>Password</td>
+                <td>City</td>
+                <td>Role</td>
+            </tr>
+            <c:forEach items="${requestScope.users}" var="user">
+                <tr>
+                    <td>${user.getId()}</td>
+                    <td>${user.getName()}</td>
+                    <td>${user.getAge()}</td>
+                    <td>${user.getPassword()}</td>
+                    <td>${user.getCity()}</td>
+                    <td>${user.getRole()}</td>
+                    <td> <input type="submit" value="update"  onClick='location.href="${contextPath}/user/update/"+${user.getId()}' ></td>
+                    <td> <input type="submit" value="delete"  onClick='location.href="${contextPath}/user/delete/"+${user.getId()}' ></td>
+                </tr>
+            </c:forEach>
+        </table>
+    </c:if>
 
-    <table border="5" cellspacing="0" cellpadding="20">
-        <tr>
-            <td>ID</td>
-            <td>Name</td>
-            <td>Age</td>
-            <td>Password</td>
-            <td>City</td>
-            <td>Role</td>
-        </tr>
-        <c:forEach items="${ServiceUser.getInstance().getAllUserService()}" var="user">
-        <tr>
-            <td>${user.getId()}</td>
-            <td>${user.getName()}</td>
-            <td>${user.getAge()}</td>
-            <td>${user.getPassword()}</td>
-            <td>${user.getCity()}</td>
-            <td>${user.getRole()}</td>
-            <td> <input type="submit" value="update"  onClick='location.href="${pageContext.request.contextPath}/admin/update/"+${user.getId()}' ></td>
-            <td> <input type="submit" value="delete"  onClick='location.href="${pageContext.request.contextPath}/admin/delete/"+${user.getId()}' ></td>
-        </tr>
-    </c:forEach>
-</table>
 </p>
-<form action="${pageContext.request.contextPath}/admin/add" method="post">
+<form action="${contextPath}/user/add" method="post">
     Name: <input name="name" type="text" minlength="1" />
     Age: <input name="age" type="number" min=1 />
     Password: <input name="password" type="password" min=1 />
@@ -47,7 +51,7 @@
     <p>
         <input type="submit" value="addDB" />
 </form>
-</p>
+    </p>
 <br><br>
 </body>
 </html>
